@@ -10,6 +10,7 @@ lib-cov
 pids
 logs
 results
+adhoc
 
 node_modules
 npm-debug.log
