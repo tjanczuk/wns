@@ -1,7 +1,7 @@
 wns
 ===
 
-Send push notifications from node.js application to Windows 8 devices using [Windows Notification Services](http://msdn.microsoft.com/en-us/library/windows/apps/hh913756.aspx). 
+Send push notifications from a node.js application to a Windows 8 device using [Windows Notification Services](http://msdn.microsoft.com/en-us/library/windows/apps/hh913756.aspx). 
 
 This module helps you take care of the interaction #5 on the diagram below: 
 
@@ -9,7 +9,7 @@ This module helps you take care of the interaction #5 on the diagram below:
 
 ## What you need
 
-* Register your web application at https://manage.dev.live.com/build. Your application will be assigned a Package Security Identifier (SID) and Client Secret. These allow your web application to be authenticated to the Windows Notificaton Service.  
+* Register your cloud service (web application) at https://manage.dev.live.com/build. Your application will be assigned a Package Security Identifier (SID) and Client Secret. These allow your web application to be authenticated to the Windows Notificaton Service.  
 * A channel URL to send notifications to. This is normally created from within your Windows 8 application running on a particular device and securely passed to your web application. The channel URL uniquely identifies the instance of an application running on a particular device.  
 
 ## Your first notification
@@ -116,17 +116,15 @@ In both cases the meaning of ```channel```, ```options```, and ```callback``` is
 
 * ```channel``` [required] - the notification channel URL of the target instance of a Windows 8 application.
 * ```options``` [optional] - allows specifying web application credentials to authenticate the web application to Windows Notification Service. If this parameter is not specified, the ```WNS_CLIENT_ID``` environment variable must be set to the Package Security Identifier (SID), and the ```WNS_CLIENT_SECRET``` environment variable must be set to the Client Secret of the web application. 
-
-** ```client_id``` [optional] - Package Security Identifier (SID) or the web application. If absent, the value must be provided through ```WNS_CLIENT_ID``` environment variable.
-** ```client_secret``` [optional] - Client Secret of the web application. If absent, the value must be provided through the ```WNS_CLIENT_SECRET``` environment variable.
-** ```accessToken``` [optional] - OAuth access token to be used to send notifications. This is normally issued by Windows Notification Service during one of the prior calls to send a notification and passed to the applicaton through the ```callback``` parameter.
-** ```headers``` [optional] - any additional HTTP request headers to include in the request sent to Windows Notification Service. For a list of available HTTP request headers see [here](http://msdn.microsoft.com/en-us/library/windows/apps/hh465435.aspx).
-
+  * ```client_id``` [optional] - Package Security Identifier (SID) or the web application. If absent, the value must be provided through ```WNS_CLIENT_ID``` environment variable.
+  * ```client_secret``` [optional] - Client Secret of the web application. If absent, the value must be provided through the ```WNS_CLIENT_SECRET``` environment variable.
+  * ```accessToken``` [optional] - OAuth access token to be used to send notifications. This is normally issued by Windows Notification Service during one of the prior calls to send a notification and passed to the applicaton through the ```callback``` parameter.
+  * ```headers``` [optional] - any additional HTTP request headers to include in the request sent to Windows Notification Service. For a list of available HTTP request headers see [here](http://msdn.microsoft.com/en-us/library/windows/apps/hh465435.aspx).
 * ```callback``` [optional] - a callback function that will be invoked with two parameters: (error, result), where only one is present at any time. The ```error``` parameter is an instance of ```Error``` while ```result``` is a regular object. Both contain the following members:
-** ```statusCode``` [optional] - the HTTP response status code from Windows Notification Service (for definitions see [here](http://msdn.microsoft.com/en-us/library/windows/apps/hh465435.aspx#send_notification_response)).
-** ```headers``` [optional] - the HTTP response headers (for WNS specific HTTP response headers see [here](http://msdn.microsoft.com/en-us/library/windows/apps/hh465435.aspx#send_notification_response)).
-** ```innerError``` [optional] - in case of an error this may contain more information about the condition.
-** ```newAccessToken``` [optional] - if a new OAuth access token had been obtained in the course of processing the request, it will be provided here. Subsequent calls to ```sendXYZ``` functions should specify this value in the ```options.accessToken``` field. 
+  * ```statusCode``` [optional] - the HTTP response status code from Windows Notification Service (for definitions see [here](http://msdn.microsoft.com/en-us/library/windows/apps/hh465435.aspx#send_notification_response)).
+  * ```headers``` [optional] - the HTTP response headers (for WNS specific HTTP response headers see [here](http://msdn.microsoft.com/en-us/library/windows/apps/hh465435.aspx#send_notification_response)).
+  * ```innerError``` [optional] - in case of an error this may contain more information about the condition.
+  * ```newAccessToken``` [optional] - if a new OAuth access token had been obtained in the course of processing the request, it will be provided here. Subsequent calls to ```sendXYZ``` functions should specify this value in the ```options.accessToken``` field. 
 
 The two ```sendXYZ``` method overrides differ in how notification parametrs are specified. Each kind of tile or toast notification contains a specific number of images and text fields. Each image is specified with two strings: its URL and its alternative text. Each text field is specified with just one string. 
 
@@ -160,14 +158,15 @@ wns.sendTileSquarePeekImageAndText01(
 		client_id: '{your Package Security Identifier}',
 		client_secret: '{your Client Secret}',
 		accessToken: currentAccessToken
-	}, function (error, result) {
+	}, 
+	function (error, result) {
 		currentAccessToken = error ? error.newAccessToken : result.newAccessToken;
 	});
 ```
 
 ### Badge notifications
 
-To send badge notification, use this method:
+To send a badge notification, use this method:
 
 ```
 wns.sendBadge(channel, value, [options], [callback])
@@ -175,7 +174,7 @@ wns.sendBadge(channel, value, [options], [callback])
 
 The meaning and behavior of ```channel```, ```options```, and ```callback``` is the same as for tile and toast notifications.
 
-The value can be either a simple string or number, in which case it can assume values specified [here](http://msdn.microsoft.com/en-us/library/windows/apps/br212849.aspx), or it can be an object with 2 properties:
+The ```value``` can be either a simple string or number, in which case it can assume values specified [here](http://msdn.microsoft.com/en-us/library/windows/apps/br212849.aspx), or it can be an object with 2 properties:
 
 * ```value``` [required] - one of the values specified [here](http://msdn.microsoft.com/en-us/library/windows/apps/br212849.aspx).
 * ```version``` [optional] - badge schema version (by default 1).
