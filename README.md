@@ -194,4 +194,4 @@ There is one more method that allows sending pre-formatted notifiction messages 
 wns.send(channel, payload, type, [options], [callback])
 ```
 
- The caller takes responsibility of providing a pre-formatted string with XML of the notification as the ```payload``` parameter. The ```type``` parameter specifies the type of the notification as one of the string values specified [here](http://msdn.microsoft.com/en-us/library/windows/apps/hh465435.aspx#pncodes_x_wns_type).
+ The caller takes responsibility for providing a pre-formatted string with XML of the notification as the ```payload``` parameter. The ```type``` parameter specifies the type of the notification as one of the string values specified [here](http://msdn.microsoft.com/en-us/library/windows/apps/hh465435.aspx#pncodes_x_wns_type).
