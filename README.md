@@ -196,10 +196,10 @@ wns.send(channel, payload, type, [options], [callback])
 
  The caller takes responsibility for providing a pre-formatted string with XML of the notification as the ```payload``` parameter. The ```type``` parameter specifies the type of the notification as one of the string values specified [here](http://msdn.microsoft.com/en-us/library/windows/apps/hh465435.aspx#pncodes_x_wns_type).
  
- ## Running tests
+## Running tests
  
- Tests are using mocha and nock which are listed as dev dependencies. To run tests invoke mocha from the root of the repository:
+Tests are using mocha and nock which are listed as dev dependencies. To run tests invoke mocha from the root of the repository:
  
- ```
- mocha
- ```
+```
+mocha
+```
