@@ -1,6 +1,12 @@
 var wns = require('../lib/wns.js')
 	, assert = require('assert');
 
+// normalize test APIs between TDD and BDD
+if (!global.describe) {
+	describe = suite;
+	it = test;
+}
+
 describe('wns.send', function () {
 	it('fails without parameters', function () {
 		assert.throws(

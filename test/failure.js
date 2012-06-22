@@ -5,6 +5,12 @@ var wns = require('../lib/wns.js')
 	, path = require('path')
 	, vm = require('vm');
 
+// normalize test APIs between TDD and BDD
+if (!global.describe) {
+	describe = suite;
+	it = test;
+}
+
 // Set the WNS_RECORD environment variable to 1 to execute the tests against live WNS endpoints and record
 // the HTTPS traffic in files under the nock directory.
 // If the variable is not set (the default), the tests will execute against mocked HTTP responses saved previously 
@@ -26,12 +32,11 @@ var invalidOptions = {
 var validTile = "<tile><visual><binding template=\"TileSquareBlock\"><text id=\"1\">http://textParam1.com</text><text id=\"2\">http://textParam2.com</text></binding></visual></tile>";
 var invalidTile = "this is an invalid tile";
 
-console.log(recordLiveSession ? 'Executing tests against live endpoints and recording the traffic'
-	: 'Executing tests against pre-recorded mock HTTP responses');
-
-if (recordLiveSession)
+if (recordLiveSession) {
+	console.log('Executing tests against live endpoints and recording the traffic');
 	// capture HTTP traffic against live endpoints
 	nock.recorder.rec(true);
+}
 
 var callback = function (error, result, done, nockFile, mockScopes, validation) {
 	try {
