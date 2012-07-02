@@ -13,8 +13,8 @@ exports.createWnsContext = function (client_secret, client_id) {
 
     // transform the sendTile*, sendToast*, and sendBadge methods exposed by wns module as follows:
     // - success and error callbacks are separate and specified as properties of the options object
-    // - client_id and client_secret and provided by ZUMO
-    // - accessToken, if obtained, is cached by ZUMO in memory
+    // - client_id and client_secret and provided by the application
+    // - accessToken, if obtained, is cached by the application
     // - user can call these methods either with a single channel URL or with a channel array
     // - channel URL is passed to callbacks as part of the result or error object
     // - accessToken is not passed back to the caller throught the callback
