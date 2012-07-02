@@ -5,7 +5,7 @@
     "url": "http://tomasz.janczuk.org",
     "twitter": "tjanczuk"
   },
-  "version": "0.4.0",
+  "version": "0.5.0-pre",
   "description": "Send push notifications to Windows 8 devices using WNS",
   "tags" : ["azure", "sdk", "windows 8", "notifications", "wns"],
   "tags" : ["azure", "sdk", "windows 8", "notifications", "wns"],
