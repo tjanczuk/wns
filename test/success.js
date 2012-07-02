@@ -218,3 +218,37 @@ describe('wns.sendToastText01 with audio and toast options', function () {
 		});
 	});
 });
+
+describe('wns.sendToastText01 with non-string parameters', function () {
+	it('succeeds', function (done) {
+		var nockFile = path.resolve(nockRecordingsDir, 'SendToastText01WithAudioAndToastOptions-success.js');
+		var mockScopes;
+		if (!recordLiveSession) 
+			// load mock HTTP traffic captured previously
+			mockScopes = require(nockFile).setupMockScopes(nock, mockScopes);		
+
+		var options1 = {
+			client_id: options.client_id,
+			client_secret: options.client_secret,
+			audio: {
+				src: 'Alarm',
+				silent: false,
+				loop: true
+			},
+			launch: 'some random parameter passed to the application',
+			duration: 'long'
+		}
+
+		var params = {
+			text1: {
+				toString: function () {
+					return 'A toast!';
+				}
+			}
+		}
+
+		wns.sendToastText01(channel, params, options1, function (error, result) {
+			callback(error, result, done, nockFile, mockScopes);
+		});
+	});
+});
