@@ -22,10 +22,10 @@ npm install wns
 
 Then send a notification to your Windows 8 application with
 
-```
+```javascript
 var wns = require('wns');
 
-var channelUrl = '{url to your application's notification channel}';
+var channelUrl = '{url to your application notification channel}';
 var options = {
 	client_id: '{your Package Security Identifier}',
 	client_secret: '{your Client Secret}'	
@@ -140,7 +140,7 @@ The overload that accepts the ```payload``` parameter requires that ```payload``
 
 For example:
 
-```
+```javascript
 var channel = '{channel_url}';
 var currentAccessToken;
 
@@ -168,7 +168,7 @@ wns.sendTileSquarePeekImageAndText01(
 
 To send a badge notification, use this method:
 
-```
+```javascript
 wns.sendBadge(channel, value, [options], [callback])
 ```
 
@@ -181,7 +181,7 @@ The ```value``` can be either a simple string or number, in which case it can as
 
 For example:
 
-```
+```javascript
 var channel = '{channel_url}';
 wns.sendBadge(channel, 'alert');
 ```
@@ -190,7 +190,7 @@ wns.sendBadge(channel, 'alert');
 
 There is one more method that allows sending pre-formatted notifiction messages that adhere to the tile, toast, or badge schema:
 
-```
+```javascript
 wns.send(channel, payload, type, [options], [callback])
 ```
 
