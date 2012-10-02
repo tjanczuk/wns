@@ -178,6 +178,20 @@ describe('wns.sendBadge', function () {
 	});
 });
 
+describe('wns.sendRaw', function () {
+	it('succeeds', function (done) {
+		var nockFile = path.resolve(nockRecordingsDir, 'Raw-success.js');
+		var mockScopes;
+		if (!recordLiveSession) 
+			// load mock HTTP traffic captured previously
+			mockScopes = require(nockFile).setupMockScopes(nock, mockScopes);		
+
+		wns.sendRaw(channel, "abc", options, function (error, result) {
+			callback(error, result, done, nockFile, mockScopes);
+		});
+	});
+});
+
 describe('wns.send', function () {
 	it('succeeds', function (done) {
 		var nockFile = path.resolve(nockRecordingsDir, 'Send-success.js');

@@ -130,11 +130,9 @@ exports.createWnsContext = function (client_secret, client_id) {
     };
 
     for (var method in wns) {
-        if (!(['sendToast', 'sendTile', 'sendBadge'].some(createPrefixComparer(method)))) {
-            continue;
+        if (method.indexOf('send') === 0) {
+            result[method] = createWnsWrapper(method, client_id, client_secret, accessTokenContainer);
         }
-
-        result[method] = createWnsWrapper(method, client_id, client_secret, accessTokenContainer);
     }
 
     return result;
