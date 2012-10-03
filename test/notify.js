@@ -5,12 +5,6 @@ exports.createWnsContext = function (client_secret, client_id) {
     var result = {};
     var accessTokenContainer = {};
 
-    var createPrefixComparer = function (method) {
-        return function (item) {
-            return method.indexOf(item) === 0;
-        };
-    };
-
     // transform the sendTile*, sendToast*, and sendBadge methods exposed by wns module as follows:
     // - success and error callbacks are separate and specified as properties of the options object
     // - client_id and client_secret and provided by the application
