@@ -120,6 +120,8 @@ In both cases the meaning of ```channel```, ```options```, and ```callback``` is
   * ```client_secret``` [optional] - Client Secret of the web application. If absent, the value must be provided through the ```WNS_CLIENT_SECRET``` environment variable.
   * ```accessToken``` [optional] - OAuth access token to be used to send notifications. This is normally issued by Windows Notification Service during one of the prior calls to send a notification and passed to the applicaton through the ```callback``` parameter.
   * ```headers``` [optional] - any additional HTTP request headers to include in the request sent to Windows Notification Service. For a list of available HTTP request headers see [here](http://msdn.microsoft.com/en-us/library/windows/apps/hh465435.aspx).
+  * ```launch``` [optional; toast notifications only] - application specific string payload that will be delievered to the client device along with the toast notification
+  * ```duration``` [optional; toast notifications only] - duration the toast notification will be shown; valid values are ```long``` and ```short```
 * ```callback``` [optional] - a callback function that will be invoked with two parameters: (error, result), where only one is present at any time. The ```error``` parameter is an instance of ```Error``` while ```result``` is a regular object. Both contain the following members:
   * ```statusCode``` [optional] - the HTTP response status code from Windows Notification Service (for definitions see [here](http://msdn.microsoft.com/en-us/library/windows/apps/hh465435.aspx#send_notification_response)).
   * ```headers``` [optional] - the HTTP response headers (for WNS specific HTTP response headers see [here](http://msdn.microsoft.com/en-us/library/windows/apps/hh465435.aspx#send_notification_response)).
@@ -186,6 +188,25 @@ var channel = '{channel_url}';
 wns.sendBadge(channel, 'alert');
 ```
 
+### Raw notifications
+
+To send a raw notification, use this method:
+
+```javascript
+wns.sendRaw(channel, value, [options], [callback])
+```
+
+The meaning and behavior of ```channel```, ```options```, and ```callback``` is the same as for tile and toast notifications.
+
+The ```value``` is an application specific string that will be delivered to the client unchanged.
+
+For example:
+
+```javascript
+var channel = '{channel_url}';
+wns.sendRaw(channel, JSON.stringify({ foo: 1, bar: 2 }));
+```
+
 ### Low level notifications
 
 There is one more method that allows sending pre-formatted notifiction messages that adhere to the tile, toast, or badge schema:
@@ -194,7 +215,7 @@ There is one more method that allows sending pre-formatted notifiction messages 
 wns.send(channel, payload, type, [options], [callback])
 ```
 
- The caller takes responsibility for providing a pre-formatted string with XML of the notification as the ```payload``` parameter. The ```type``` parameter specifies the type of the notification as one of the string values specified [here](http://msdn.microsoft.com/en-us/library/windows/apps/hh465435.aspx#pncodes_x_wns_type).
+The caller takes responsibility for providing a pre-formatted string (typically with XML) of the notification as the ```payload``` parameter. The ```type``` parameter specifies the type of the notification as one of the string values specified [here](http://msdn.microsoft.com/en-us/library/windows/apps/hh465435.aspx#pncodes_x_wns_type).
  
 ## Running tests
  
