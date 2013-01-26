@@ -87,24 +87,17 @@ describe('wns.sendBadge', function () {
 		);
 	});	
 
-	it ('fails with too large integer value type', function () {
-		assert.throws(
-			function () { wns.sendBadge('http://foo', 1000) },
-			/The badge numeric value must be in the 1-99 range/
-		);
-	});	
-
 	it ('fails with too small integer value type', function () {
 		assert.throws(
 			function () { wns.sendBadge('http://foo', -1) },
-			/The badge numeric value must be in the 1-99 range/
+			/The badge numeric value must be greater than or equal to 0/
 		);
 	});	
 
 	it ('fails with invalid string value type', function () {
 		assert.throws(
 			function () { wns.sendBadge('http://foo', 'foobar') },
-			/The badge value must be either an integer in the 1-99 range or one of/
+			/The badge value must be either an integer greater than or equal to 0 or one of/
 		);
 	});	
 
