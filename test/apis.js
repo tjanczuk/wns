@@ -1,11 +1,173 @@
 var wns = require('../lib/wns.js')
-	, assert = require('assert');
+	, assert = require('assert')
+	, templateSpecs = require('./templates.js').specs
+	, recordLiveSession = false
+	, createResults = recordLiveSession ? undefined : require('./createResults.js').results
+	, createBindingResults = recordLiveSession ? undefined : require('./createBindingResults.js').results
+	, fs = require('fs');
+	
 
 // normalize test APIs between TDD and BDD
 if (!global.describe) {
 	describe = suite;
 	it = test;
 }
+
+testCreateMethods('', __dirname + '/createResults.js', createResults);
+testCreateMethods('Binding', __dirname + '/createBindingResults.js', createBindingResults);
+
+function testCreateMethods(methodSuffix, logFile, expected) {
+	var count = 0;
+	var total = Object.getOwnPropertyNames(templateSpecs).length;
+	var options = {
+		lang: 'en-us',
+		audio: {
+			src: 'Alarm',
+			silent: false,
+			loop: true			
+		}
+	};
+
+	if (recordLiveSession) {
+		fs.writeFileSync(logFile, '// this file is auto-generated from apis.js\n\nexports.results = {\n');
+	}
+
+	for (var item in templateSpecs) {
+		(function (item) {
+			var template = templateSpecs[item];
+			describe('wns.create' + item + methodSuffix, function () {
+				it('succeeds', function (done) {
+					// test passing string parameters in
+					var params = [];
+					for (var i = 0; i < ((template[0] * 2) + template[1]); i++)
+						params.push('item' + i);
+
+					params.push(options);
+					var result = wns['create' + item + methodSuffix].apply(this, params);
+					if (recordLiveSession) {
+						fs.appendFileSync(logFile, '    ' + item + 'Plain: \'' + result + '\',\n');
+					}
+					else {						
+						assert.equal(result, expected[item + 'Plain']);
+					}
+
+					// test passing an object in
+					var payload = { lang: 'en-gb' };
+					var k = 0;
+					for (var i = 0; i < template[0]; i++) {
+						payload['image' + (i+1) + 'src'] = 'item' + k++;
+						payload['image' + (i+1) + 'alt'] = 'item' + k++;
+					}
+
+					for (var i = 0; i < template[1]; i++) {
+						payload['text' + (i+1)] = 'item' + k++;
+					}
+
+					result = wns['create' + item + methodSuffix].call(this, payload, options);
+					if (recordLiveSession) {
+						fs.appendFileSync(logFile, '    ' + item + 'Object: \'' + result + '\',\n');
+						if (++count == total) {
+							fs.appendFileSync(logFile, '};\n');					
+						}
+					}
+					else {						
+						assert.equal(result, expected[item + 'Object']);					
+					}
+
+					done();
+				});
+			});
+		})(item);
+	}
+}
+
+describe('wns.createToast', function () {
+	it('fails without parameters', function () {
+		assert.throws(
+			wns.createToast,
+			/At least one binding must be specified/
+		);
+	});
+
+	it('fails with wrong parameter types', function () {
+		assert.throws(
+			function () { wns.createToast(12); },
+			/Unsuported type of argument: number/
+		);
+	});
+
+	it('fails with non-binding string parameter', function () {
+		assert.throws(
+			function () { wns.createToast('foo'); },
+			/Every string argument must be a WNS binding XML/
+		);
+	});
+
+	it('succeeds with plain parameters', function () {
+		var result = wns.createToast(
+			wns.createToastText01Binding('foo'),
+			wns.createToastText01Binding('bar'),
+			{ lang: 'en-gb', audio: { src: 'Alarm', loop: true } }
+		);
+		assert.equal(result, '<toast><visual lang="en-gb"><binding template="ToastText01"><text id="1">foo</text></binding>' +
+			'<binding template="ToastText01"><text id="1">bar</text></binding></visual>' +
+			'<audio src="ms-winsoundevent:Notification.Alarm" loop="true"/></toast>');
+	});
+
+	it('succeeds with object parameters', function () {
+		var result = wns.createToast(
+			{ type: 'ToastText01', text1: 'foo', lang: 'pl' },
+			{ type: 'ToastText01', text1: 'bar', lang: 'en-us' },
+			{ lang: 'en-gb', audio: { src: 'Alarm', loop: true } }
+		);
+		assert.equal(result, '<toast><visual lang="en-gb"><binding template="ToastText01" lang="pl"><text id="1">foo</text></binding>' +
+			'<binding template="ToastText01" lang="en-us"><text id="1">bar</text></binding></visual>' +
+			'<audio src="ms-winsoundevent:Notification.Alarm" loop="true"/></toast>');
+	});
+});
+
+describe('wns.createTile', function () {
+	it('fails without parameters', function () {
+		assert.throws(
+			wns.createTile,
+			/At least one binding must be specified/
+		);
+	});
+
+	it('fails with wrong parameter types', function () {
+		assert.throws(
+			function () { wns.createTile(12); },
+			/Unsuported type of argument: number/
+		);
+	});
+
+	it('fails with non-binding string parameter', function () {
+		assert.throws(
+			function () { wns.createTile('foo'); },
+			/Every string argument must be a WNS binding XML/
+		);
+	});
+
+	it('succeeds with plain parameters', function () {
+		var result = wns.createTile(
+			wns.createTileSquareText04Binding('foo'),
+			wns.createTileSquareText04Binding('bar'),
+			{ lang: 'en-gb' }
+		);
+		assert.equal(result, '<tile><visual lang="en-gb"><binding template="TileSquareText04"><text id="1">foo</text></binding>' +
+			'<binding template="TileSquareText04"><text id="1">bar</text></binding></visual></tile>');
+	});
+
+	it('succeeds with object parameters', function () {
+		var result = wns.createTile(
+			{ type: 'TileSquareText04', text1: 'foo', lang: 'pl' },
+			{ type: 'TileSquareText04', text1: 'bar', lang: 'en-us' },
+			{ lang: 'en-gb' }
+		);
+		assert.equal(result, '<tile><visual lang="en-gb"><binding template="TileSquareText04" lang="pl"><text id="1">foo</text></binding>' +
+			'<binding template="TileSquareText04" lang="en-us"><text id="1">bar</text></binding></visual></tile>');
+	});
+});
 
 describe('wns.send', function () {
 	it('fails without parameters', function () {

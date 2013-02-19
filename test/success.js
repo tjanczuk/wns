@@ -3,7 +3,8 @@ var wns = require('../lib/wns.js')
 	, assert = require('assert')
 	, fs = require('fs')
 	, path = require('path')
-	, vm = require('vm');
+	, vm = require('vm')
+	, templateSpecs = require('./templates.js').specs;
 
 // normalize test APIs between TDD and BDD
 if (!global.describe) {
@@ -30,63 +31,6 @@ if (recordLiveSession) {
 	// capture HTTP traffic against live endpoints
 	nock.recorder.rec(true);
 }
-
-var templateSpecs = {
-	TileSquareBlock: [0, 2],
-	TileSquareText01: [0, 4],
-	TileSquareText02: [0, 2],
-	TileSquareText03: [0, 4],
-	TileSquareText04: [0, 1],
-	TileWideText01: [0, 5],
-	TileWideText02: [0, 9],
-	TileWideText03: [0, 1],
-	TileWideText04: [0, 1],
-	TileWideText05: [0, 5],
-	TileWideText06: [0, 10],
-	TileWideText07: [0, 9],
-	TileWideText08: [0, 10],
-	TileWideText09: [0, 2],
-	TileWideText10: [0, 9],
-	TileWideText11: [0, 10],
-	TileSquareImage: [1, 0],
-	TileSquarePeekImageAndText01: [1, 4],
-	TileSquarePeekImageAndText02: [1, 2],
-	TileSquarePeekImageAndText03: [1, 4],
-	TileSquarePeekImageAndText04: [1, 1],
-	TileWideImage: [1, 0],
-	TileWideImageCollection: [5, 0],
-	TileWideImageAndText01: [1, 1],
-	TileWideImageAndText02: [1, 2],
-	TileWideBlockAndText01: [0, 6],
-	TileWideBlockAndText02: [0, 3],
-	TileWideSmallImageAndText01: [1, 1],
-	TileWideSmallImageAndText02: [1, 5],
-	TileWideSmallImageAndText03: [1, 1],
-	TileWideSmallImageAndText04: [1, 2],
-	TileWideSmallImageAndText05: [1, 2],
-	TileWidePeekImageCollection01: [5, 2],
-	TileWidePeekImageCollection02: [5, 5],
-	TileWidePeekImageCollection03: [5, 1],
-	TileWidePeekImageCollection04: [5, 1],
-	TileWidePeekImageCollection05: [6, 2],
-	TileWidePeekImageCollection06: [6, 1],
-	TileWidePeekImageAndText01: [1, 1],
-	TileWidePeekImageAndText02: [1, 5],
-	TileWidePeekImage01: [1, 2],
-	TileWidePeekImage02: [1, 5],
-	TileWidePeekImage03: [1, 1],
-	TileWidePeekImage04: [1, 1],
-	TileWidePeekImage05: [2, 2],
-	TileWidePeekImage06: [2, 1],
-	ToastText01: [0, 1],
-	ToastText02: [0, 2],
-	ToastText03: [0, 2],
-	ToastText04: [0, 3],
-	ToastImageAndText01: [1, 1],
-	ToastImageAndText02: [1, 2],
-	ToastImageAndText03: [1, 2],
-	ToastImageAndText04: [1, 3]
-};
 
 var callback = function (error, result, done, nockFile, mockScopes) {
 	try {
