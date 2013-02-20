@@ -166,6 +166,70 @@ wns.sendTileSquarePeekImageAndText01(
 	});
 ```
 
+### Sending multiple tile or toast notifications at once
+
+You can send multiple toast or tile notifications in a single update to the client. This feature is useful since the client device may then choose one the tile or toast formats that suites its local configuration best. For example, you may send two semantically equivalent tiles, one square and the other wide. The client UI will decide which one to show based on its configuration. 
+
+To send multiple toasts or tiles in a single update use one of these methods:
+
+```javascript
+wns.sendTile(channel, tile1, tile2, ..., [options], [callback])
+wns.sendToast(channel, toast1, toast2, ..., [options], [callback])
+``` 
+
+The meaning and behavior or `channel`, `options`, and `callback` is the same as for the `wns.sendXYZ` APIs which send a single toast or tile. 
+
+The `tile1`, `tile2`, etc. parameters describe the tile or toast binding which defines its appearance. These are JavaScript objects constructed the same way as you would construct them for use with `wns.sendXYZ` methods, but contain one extra property named `type`. The `type` property is a string name of the tile or toast template, e.g. `TileSquareBlock`. For a complete list of available tile and toast template names see [tile](http://msdn.microsoft.com/en-us/library/windows/apps/hh761491.aspx) and [toast](http://msdn.microsoft.com/en-us/library/windows/apps/hh761494.aspx) documentation.
+
+For example:
+
+```javascript
+var channel = '{channel_url}';
+
+wns.sendTile(
+	channel,
+	{
+		type: 'TileSquareText04',
+		text1: 'Hello'
+	},
+	{
+		type: 'TileWideText09',
+		text1: 'Hello',
+		text2: 'How are you?'
+	},
+	{
+		client_id: '{your Package Security Identifier}',
+		client_secret: '{your Client Secret}'
+	}, 
+	function (error, result) {
+		// ...
+	});
+```
+
+The code above sends an update with two tile definitions: TileSquareText04 and TileWideText09. The client agent will choose the tile update to show. 
+
+### Selecting language and other tile or toast parameters
+
+You can add several parameters to tile and toast notifications by adding properties to the object that defines the tile or toast. For example, to indicate the target language is German, you can use the `lang` property as follows:
+
+```javascript
+wns.sendTileSquareText04(
+	channel,
+	{
+		text1: 'Herzlich Willkommen',
+		lang: 'de'
+	},
+	{
+		client_id: '{your Package Security Identifier}',
+		client_secret: '{your Client Secret}'
+	}, 
+	function (error, result) {
+		// ...
+	});
+```
+
+You can use this method to specify `lang`, `fallback`, `baseUri`, `branding`, and `addImageQuery` parameters of a toast or tile as specified [here](http://msdn.microsoft.com/en-us/library/windows/apps/br230843.aspx). 
+
 ### Badge notifications
 
 To send a badge notification, use this method:
