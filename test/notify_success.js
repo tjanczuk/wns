@@ -19,10 +19,10 @@ if (!global.describe) {
 var recordLiveSession = process.env.WNS_RECORD == 1;
 var nockRecordingsDir = path.resolve(__dirname, 'nock');
 var currentRecord = 0;
-var channel = 'https://bn1.notify.windows.com/?token=AgUAAACQRWJECxiyMVoNBsJefU%2bZypA7bASncWnSeSP9WA2zBXKnyb1%2fWUCg%2bTr7%2fspFEBK0b25eCDYgxdjVq%2bCoqqz6P68y6uLsnlnDtRbig9dzDWM30D5BNI7PmG7H7vsgCSU%3d'
+var channel = 'https://bn1.notify.windows.com/?token=AgYAAACFGdWBiRCTypHebfvngI7DuNBXWuGjdiczDOZ7bSgkbCRrD2M1b10CpzCmipzknHbU4nLzapQbooXzJ%2fVwHAfSl%2fWMk8OsetohEVMlsIicoLP99rDg7g2AdENA99DZoAU%3d'
 var options = {
-    client_id: 'ms-app://s-1-15-2-3004590818-3540041580-1964567292-460813795-2327965118-1902784169-2945106848',
-    client_secret: 'N3icDsX5JXArJJR6AdTQZ86RITXQnMmA',
+    client_id: 'ms-app://s-1-15-2-145565886-1510793020-2797717260-1526195933-3912359816-44086043-2211002316',
+    client_secret: 'FF9yfJLxSH3uI32wNKGye643bAZ4zBz7',
 };
 
 if (recordLiveSession) {
