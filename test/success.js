@@ -87,7 +87,7 @@ var callback = function (error, result, done, nockFile, mockScopes) {
 		assert.equal(typeof result.newAccessToken, 'string', 'New accessToken was obtained');
 		assert.equal(result.statusCode, 200, 'WNS response is HTTP 200');
 		assert.equal(typeof result.headers, 'object', 'HTTP response headers are present in the result');
-		assert.equal(result.headers['x-wns-notificationstatus'], 'received', 'Notification was received by WNS');
+		assert.equal(result.headers['x-wns-status'], 'received', 'Notification was received by WNS');
 
 		if (recordLiveSession) {
 			// save recorded traffic to a file under the nock directory

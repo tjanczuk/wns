@@ -96,7 +96,7 @@ var callback = function (error, result, done, nockFile, mockScopes) {
         assert.equal(typeof result.channel, 'string', 'Channel URL was propagated');
         assert.equal(result.statusCode, 200, 'WNS response is HTTP 200');
         assert.equal(typeof result.headers, 'object', 'HTTP response headers are present in the result');
-        assert.equal(result.headers['x-wns-notificationstatus'], 'received', 'Notification was received by WNS');
+        assert.equal(result.headers['x-wns-status'], 'received', 'Notification was received by WNS');
         assert.equal(Object.getOwnPropertyNames(result.headers).some(function (item) {
             return item.toLowerCase().indexOf('x-wns-') !== 0;
         }), false, 'Only x-wns-* response headers were propagated');

@@ -12,7 +12,7 @@ scopes.push(scope);scope =
 nock('https://bn1.notify.windows.com:443')
   .post('/?token=AgYAAACFGdWBiRCTypHebfvngI7DuNBXWuGjdiczDOZ7bSgkbCRrD2M1b10CpzCmipzknHbU4nLzapQbooXzJ%2fVwHAfSl%2fWMk8OsetohEVMlsIicoLP99rDg7g2AdENA99DZoAU%3d', "<tile><visual><binding template=\"TileWidePeekImage06\"><image id=\"1\" src=\"http://textParam1.com\" alt=\"http://textParam2.com\"/><image id=\"2\" src=\"http://textParam3.com\" alt=\"http://textParam4.com\"/><text id=\"1\">http://textParam5.com</text></binding></visual></tile>")
   .reply(200, "", { 'content-length': '0',
-  'x-wns-notificationstatus': 'received',
+  'x-wns-status': 'received',
   'x-wns-msg-id': '534178B70905A04A',
   'x-wns-debug-trace': 'BN1WNS2011533',
   date: 'Wed, 20 Feb 2013 04:17:37 GMT' });

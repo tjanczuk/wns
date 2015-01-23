@@ -89,13 +89,6 @@ describe('wns.createToast', function () {
 		);
 	});
 
-	it('fails with wrong parameter types', function () {
-		assert.throws(
-			function () { wns.createToast(12); },
-			/Unsuported type of argument: number/
-		);
-	});
-
 	it('fails with non-binding string parameter', function () {
 		assert.throws(
 			function () { wns.createToast('foo'); },
@@ -131,13 +124,6 @@ describe('wns.createTile', function () {
 		assert.throws(
 			wns.createTile,
 			/At least one binding must be specified/
-		);
-	});
-
-	it('fails with wrong parameter types', function () {
-		assert.throws(
-			function () { wns.createTile(12); },
-			/Unsuported type of argument: number/
 		);
 	});
 
