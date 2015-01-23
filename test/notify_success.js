@@ -13,7 +13,7 @@ if (!global.describe) {
 
 // Set the WNS_RECORD environment variable to 1 to execute the tests against live WNS endpoints and record
 // the HTTPS traffic in files under the nock directory.
-// If the variable is not set (the default), the tests will execute against mocked HTTP responses saved previously 
+// If the variable is not set (the default), the tests will execute against mocked HTTP responses saved previously
 // to the files under the nock directory.
 
 var recordLiveSession = process.env.WNS_RECORD == 1;
@@ -111,7 +111,7 @@ var callback = function (error, result, done, nockFile, mockScopes) {
             };
             code.push('return scopes; };');
             fs.writeFileSync(nockFile, code.join(''));
-        }                       
+        }
         else
             // validate requests against all mocked endpoints have been performed
             mockScopes.forEach(function (scope) { scope.done(); });
@@ -147,12 +147,12 @@ for (var item in templateSpecs) {
                     },
                     error: function (error) {
                         callback(error, null, done, nockFile, mockScopes);
-                    }                   
+                    }
                 };
                 params.push(options1);
 
                 var initiateNotification = function () {
-                    if (!recordLiveSession) 
+                    if (!recordLiveSession)
                         // load mock HTTP traffic captured previously
                         mockScopes = require(nockFile).setupMockScopes(nock);
 
@@ -167,7 +167,7 @@ for (var item in templateSpecs) {
                     setTimeout(initiateNotification, 2000);
                     // delay += 2000;
                 }
-                else 
+                else
                     initiateNotification();
             });
         });
@@ -178,9 +178,9 @@ describe('notify.sendBadge', function () {
     it('succeeds', function (done) {
         var nockFile = path.resolve(nockRecordingsDir, 'Badge-success.js');
         var mockScopes;
-        if (!recordLiveSession) 
+        if (!recordLiveSession)
             // load mock HTTP traffic captured previously
-            mockScopes = require(nockFile).setupMockScopes(nock);       
+            mockScopes = require(nockFile).setupMockScopes(nock);
 
         var wns = notify.createWnsContext(options.client_secret, options.client_id);
         wns.sendBadge(channel, 'alert', {
@@ -198,7 +198,7 @@ describe('notify.sendRaw', function () {
     it('succeeds', function (done) {
         var nockFile = path.resolve(nockRecordingsDir, 'Raw-success.js');
         var mockScopes;
-        if (!recordLiveSession) 
+        if (!recordLiveSession)
             // load mock HTTP traffic captured previously
             mockScopes = require(nockFile).setupMockScopes(nock, mockScopes);
 
@@ -218,12 +218,12 @@ describe('notify.send', function () {
     it('succeeds', function (done) {
         var nockFile = path.resolve(nockRecordingsDir, 'Send-success.js');
         var mockScopes;
-        if (!recordLiveSession) 
+        if (!recordLiveSession)
             // load mock HTTP traffic captured previously
-            mockScopes = require(nockFile).setupMockScopes(nock, mockScopes);       
+            mockScopes = require(nockFile).setupMockScopes(nock, mockScopes);
 
         var wns = notify.createWnsContext(options.client_secret, options.client_id);
-        wns.send(channel, "<tile><visual><binding template=\"TileSquareBlock\"><text id=\"1\">http://textParam1.com</text><text id=\"2\">http://textParam2.com</text></binding></visual></tile>", 
+        wns.send(channel, "<tile><visual><binding template=\"TileSquareBlock\"><text id=\"1\">http://textParam1.com</text><text id=\"2\">http://textParam2.com</text></binding></visual></tile>",
             'wns/tile', {
             success: function (result) {
                 callback(null, result, done, nockFile, mockScopes);
@@ -239,9 +239,9 @@ describe('notify.sendToastText01 with audio and toast options', function () {
     it('succeeds', function (done) {
         var nockFile = path.resolve(nockRecordingsDir, 'SendToastText01WithAudioAndToastOptions-success.js');
         var mockScopes;
-        if (!recordLiveSession) 
+        if (!recordLiveSession)
             // load mock HTTP traffic captured previously
-            mockScopes = require(nockFile).setupMockScopes(nock, mockScopes);       
+            mockScopes = require(nockFile).setupMockScopes(nock, mockScopes);
 
         var options1 = {
             audio: {
