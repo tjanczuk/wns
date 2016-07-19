@@ -8,7 +8,6 @@
   "version": "0.5.4-pre",
   "description": "Send push notifications to Windows 8 devices using WNS",
   "tags" : ["azure", "sdk", "windows 8", "notifications", "wns"],
-  "tags" : ["azure", "sdk", "windows 8", "notifications", "wns"],
   "main": "./lib/wns.js",
   "engines": { "node": ">= 0.6.17" },
   "licenses": [ { "type": "Apache", "url": "http://www.apache.org/licenses/LICENSE-2.0" } ],
